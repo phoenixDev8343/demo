@@ -1,0 +1,33 @@
+name: Vorpal PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  vorpal-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # (Optional) If you want to only scan changed files
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v46 # example version
+        with:
+          separator: ','
+
+      - name: Run Vorpal with reviewdog
+        uses: checkmarx/vorpal-reviewdog-github-action@v1.2.0
+        with:
+          github_token: ${{ secrets.GITHUBTOKEN }}
+          # If using changed files:
+          source_path: ${{ steps.changed-files.outputs.all_changed_files }}
+          # If scanning whole project: e.g. "src/,tests/"
+          # source_path: "src/,tests/"
+          folders_to_ignore: "node_modules/,vendor/,build/"
+          level: error                 # or warning or info
+          reporter: github-pr-review   # or github-pr-check
+          filter_mode: added           # or diff_context / file / nofilter
+          fail_on_error: false         # set to true if you want the job to fail on errors
