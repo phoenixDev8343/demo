@@ -1,0 +1,7 @@
+Help me create a Java program to monitor CPU usage. Break it into small steps:
+
+Initialization: Provide the minimal Java code to set up CPU monitoring (imports and setup), without fetching or calculating usage.
+
+Once I get this part, I’ll ask for the next step.
+
+Please give me the code for CPU initialization only.
